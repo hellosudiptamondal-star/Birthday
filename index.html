@@ -559,6 +559,66 @@
                 height: 350px;
             }
         }
+        .cursor-glow {
+         position: fixed;
+         width: 20px;
+         height: 20px;
+
+         border-radius: 50%;
+         pointer-events: none;
+
+         background: radial-gradient(
+            circle,
+            rgba(255,45,85,0.9),
+           rgba(255,45,85,0)
+    );
+
+    transform: translate(-50%, -50%);
+
+    z-index: 9999;
+
+    mix-blend-mode: screen;
+
+    animation: glowFade 0.5s linear forwards;
+}
+
+@keyframes glowFade {
+
+    to {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(2);
+    }
+}
+        .bg-particle {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+
+    background: rgba(255,255,255,0.7);
+    border-radius: 50%;
+
+    pointer-events: none;
+    z-index: 1;
+
+    animation: particleFloat 10s linear forwards;
+}
+
+@keyframes particleFloat {
+
+    from {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    to {
+        transform: translateY(-100vh);
+        opacity: 0;
+    }
+}
     </style>
 </head>
 
@@ -882,6 +942,41 @@
         window.onload = () => {
             initFairyLights();
         };
+        document.addEventListener('mousemove', (e) => {
+
+    const glow = document.createElement('div');
+
+    glow.classList.add('cursor-glow');
+
+    glow.style.left = `${e.clientX}px`;
+    glow.style.top = `${e.clientY}px`;
+
+    document.body.appendChild(glow);
+
+    setTimeout(() => {
+        glow.remove();
+    }, 500);
+});
+        setInterval(() => {
+
+    const p = document.createElement('div');
+
+    p.classList.add('bg-particle');
+
+    p.style.left = Math.random() * 100 + 'vw';
+
+    const size = Math.random() * 4 + 2;
+
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+
+    document.body.appendChild(p);
+
+    setTimeout(() => {
+        p.remove();
+    }, 10000);
+
+}, 300);
     </script>
 </body>
 
