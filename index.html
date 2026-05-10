@@ -648,6 +648,20 @@
         opacity: 0;
     }
 }
+        @keyframes explode {
+    0% {
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(
+            calc(-50% + var(--x)),
+            calc(-50% + var(--y))
+        ) scale(1.2);
+        opacity: 0;
+    }
+}
     </style>
 </head>
 
@@ -799,12 +813,20 @@
             const target = document.getElementById(pageId);
             target.classList.add('active');
 
-            if (pageId === 'curtain-page') {
-                setTimeout(() => {
-                    document.getElementById('stage').classList.add('open');
-                    startSparkles('message-card');
-                }, 1000);
-            }
+           if (pageId === 'curtain-page') {
+
+    setTimeout(() => {
+        document.getElementById('stage').classList.add('open');
+
+        startSparkles('message-card');
+
+        // ❤️ HEART EXPLOSION TRIGGER
+        setTimeout(() => {
+            heartExplosion(100);
+        }, 800);
+
+    }, 1000);
+}
             if (pageId === 'gallery-page') {
                 startGalleryEffects();
             }
@@ -1032,6 +1054,40 @@
 
 // start rain
 setInterval(createHeartRain, 200);
+        function heartExplosion(count = 80) {
+
+    for (let i = 0; i < count; i++) {
+
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.innerHTML = '❤️';
+
+        // start from center of screen
+        heart.style.left = "50vw";
+        heart.style.top = "50vh";
+
+        const size = Math.random() * 25 + 10;
+        heart.style.fontSize = size + 'px';
+
+        const angle = Math.random() * 360;
+        const distance = Math.random() * 200 + 50;
+
+        const x = Math.cos(angle) * distance;
+        const y = Math.sin(angle) * distance;
+
+        heart.style.position = "fixed";
+        heart.style.transform = `translate(-50%, -50%)`;
+
+        heart.style.setProperty('--x', x + 'px');
+        heart.style.setProperty('--y', y + 'px');
+
+        heart.style.animation = "explode 1.5s ease-out forwards";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 1500);
+    }
+}
     </script>
 </body>
 
