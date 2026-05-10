@@ -63,7 +63,10 @@
             visibility: hidden;
             opacity: 0;
             transform: scale(1.1) translateZ(0);
-            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition:
+            opacity 1s ease,
+            transform 1s ease,
+            visibility 1s;
             z-index: 1;
             overflow: hidden;
         }
@@ -119,7 +122,20 @@
                 transform: scale(1.2);
             }
         }
+        .sparkle-particle {
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+    pointer-events: none;
 
+    animation: sparkle 1s linear forwards;
+
+    box-shadow:
+        0 0 10px white,
+        0 0 20px var(--accent);
+
+    will-change: transform, opacity;
+}
         /* --- Hero Page --- */
         #hero-page {
             background: radial-gradient(circle at center, #1a0a0c 0%, #050505 100%);
@@ -349,7 +365,17 @@
                 opacity: 0;
             }
         }
+        @keyframes stringWobble {
 
+            0%,
+            100% {
+                transform: rotate(-2deg);
+            }
+
+            50% {
+                transform: rotate(2deg);
+            }
+        }
         /* --- Curtain Page --- */
         .stage {
             position: relative;
@@ -404,8 +430,11 @@
             border-radius: 30px;
             max-width: 700px;
             width: 90%;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(6px);
             position: relative;
+            overflow: hidden;
+            transform: translateZ(0);
+            will-change: transform;
         }
 
         /* --- MEMORY GALLERY FIXES --- */
@@ -618,7 +647,7 @@
         <div class="gallery-grid">
             <!-- Memory 1 -->
             <div class="memory-card">
-                <img src="https://wallpapers.oneindia.com/ph-1024x768/2018/12/rashi-khanna_154512628300.jpg" alt="Memory"
+                <img src="photo1.jpg" alt="Memory"
                     class="memory-image">
                 <div class="memory-hover-overlay">
                     <p class="hover-message">You make my world beautiful ❤️</p>
@@ -626,7 +655,7 @@
             </div>
             <!-- Memory 2 -->
             <div class="memory-card">
-                <img src="https://w0.peakpx.com/wallpaper/506/297/HD-wallpaper-rashi-khanna-actress-telugu.jpg" alt="Memory"
+                <img src="photo2.jpg" alt="Memory"
                     class="memory-image">
                 <div class="memory-hover-overlay">
                     <p class="hover-message">Our memories are forever ✨</p>
@@ -634,7 +663,7 @@
             </div>
             <!-- Memory 3 -->
             <div class="memory-card">
-                <img src="https://www.cinejosh.com/gallereys/actress/normal/actress_rashi_khanna_photos_1810180429/actress_rashi_khanna_photos_1810180429_018.jpg" alt="Memory"
+                <img src="photo3.jpg" alt="Memory"
                     class="memory-image">
                 <div class="memory-hover-overlay">
                     <p class="hover-message">My favorite smile in the world 💖</p>
@@ -642,7 +671,7 @@
             </div>
             <!-- Memory 4 -->
             <div class="memory-card">
-                <img src="https://preview.redd.it/rashi-khanna-shes-always-casted-as-the-pretty-and-popular-v0-mbxwg6ea5k8b1.jpg?width=451&format=pjpg&auto=webp&s=ebeea7d8d9eac6448206bbf4700017eefe849aeb" alt="Memory"
+                <img src="photo4.jpg" alt="Memory"
                     class="memory-image">
                 <div class="memory-hover-overlay">
                     <p class="hover-message">Every second with you is a gift 🎁</p>
@@ -650,7 +679,7 @@
             </div>
             <!-- Memory 5 -->
             <div class="memory-card">
-                <img src="https://www.elahe.in/cdn/shop/files/285_3ede1728-06b6-402c-ba6f-f72198e79e38_2048x.jpg?v=1737011065" alt="Memory"
+                <img src="photo5.jpg" alt="Memory"
                     class="memory-image">
                 <div class="memory-hover-overlay">
                     <p class="hover-message">To many more adventures together 🥂</p>
@@ -658,7 +687,7 @@
             </div>
             <!-- Memory 6 -->
             <div class="memory-card">
-                <img src="https://i.pinimg.com/originals/00/be/96/00be961bf30283b844a08eced6c47baa.jpg" alt="Memory"
+                <img src="photo6.jpg" alt="Memory"
                     class="memory-image">
                 <div class="memory-hover-overlay">
                     <p class="hover-message">Always & Forever 🌹</p>
@@ -802,17 +831,36 @@
         }
 
         function startSparkles(targetId) {
-            const card = document.getElementById(targetId);
-            setInterval(() => {
-                const s = document.createElement('div');
-                s.classList.add('sparkle-particle');
-                s.style.width = s.style.height = (Math.random() * 4 + 2) + 'px';
-                s.style.top = Math.random() * 100 + '%';
-                s.style.left = Math.random() * 100 + '%';
-                card.appendChild(s);
-                setTimeout(() => s.remove(), 1000);
-            }, 50);
+
+       const card = document.getElementById(targetId);
+
+        let sparkleInterval = setInterval(() => {
+
+        if (!document.getElementById('curtain-page').classList.contains('active')) {
+            clearInterval(sparkleInterval);
+            return;
         }
+
+        const s = document.createElement('div');
+
+        s.classList.add('sparkle-particle');
+
+        const size = Math.random() * 4 + 2;
+
+        s.style.width = `${size}px`;
+        s.style.height = `${size}px`;
+
+        s.style.top = Math.random() * 100 + '%';
+        s.style.left = Math.random() * 100 + '%';
+
+        card.appendChild(s);
+
+        setTimeout(() => {
+            s.remove();
+        }, 1000);
+
+    }, 120);
+}
 
         function initFairyLights() {
             const container = document.getElementById('fairy-lights-container');
