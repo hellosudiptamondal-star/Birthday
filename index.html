@@ -619,6 +619,35 @@
         opacity: 0;
     }
 }
+        .heart {
+    position: fixed;
+    top: -10vh;
+
+    color: var(--accent);
+    font-size: 18px;
+
+    pointer-events: none;
+    z-index: 999;
+
+    animation: fall linear forwards;
+    opacity: 0.9;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0) scale(0.8);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(110vh) scale(1.2);
+        opacity: 0;
+    }
+}
     </style>
 </head>
 
@@ -977,6 +1006,32 @@
     }, 10000);
 
 }, 300);
+        function createHeartRain() {
+    const heart = document.createElement('div');
+
+    heart.classList.add('heart');
+    heart.innerHTML = '❤️';
+
+    // random position
+    heart.style.left = Math.random() * 100 + 'vw';
+
+    // random size
+    const size = Math.random() * 20 + 10;
+    heart.style.fontSize = size + 'px';
+
+    // random speed
+    const duration = Math.random() * 3 + 3;
+    heart.style.animationDuration = duration + 's';
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, duration * 1000);
+}
+
+// start rain
+setInterval(createHeartRain, 200);
     </script>
 </body>
 
