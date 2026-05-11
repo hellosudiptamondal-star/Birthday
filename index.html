@@ -709,9 +709,9 @@
             </svg>
         </div>
         <div class="glass-container" style="background: transparent; border: none; box-shadow: none;">
-            <h2 id="celeb-hint" style="font-size: 1.5rem; margin-bottom: 30px; letter-spacing: 2px;">The Stage is Set...
+            <h2 id="celeb-hint" style="font-size: 1.5rem; margin-bottom: 30px; letter-spacing: 2px;">Ato Ondhokar Kano...?
             </h2>
-            <button id="celeb-master-btn" class="btn-neon" onclick="celebFlow()">💡 Turn On Lights</button>
+            <button id="celeb-master-btn" class="btn-neon" onclick="celebFlow()">💡Light Jalao Sona</button>
         </div>
     </section>
 
@@ -874,19 +874,19 @@
             if (celebStep === 1) {
                 page.classList.add('bright');
                 lights.style.opacity = '1';
-                hint.innerText = "Music makes it better...";
-                btn.innerText = "🎵 Play Music";
+                hint.innerText = "Gaan chara thik jome na...";
+                btn.innerText = "🎵 Gaan Ta Bajao Puchu";
                 celebStep = 2;
             } else if (celebStep === 2) {
                 const audio = document.getElementById('birthday-audio');
                 audio.play().catch(() => { });
-                hint.innerText = "Let the colors fly!";
-                btn.innerText = "🎈 Fly Balloons";
+                hint.innerText = "Balloons Na Orale Hobe";
+                btn.innerText = "🎈 Ei Je Balloons";
                 celebStep = 3;
             } else if (celebStep === 3) {
                 spawnBalloons(document.body);
-                hint.innerText = "Almost there...";
-                btn.innerText = "✨ Show The Message";
+                hint.innerText = "Aar Aktu...";
+                btn.innerText = "✨ Chotto Message";
                 celebStep = 4;
             } else {
                 transitionTo('curtain-page');
